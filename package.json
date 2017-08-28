@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "format": "prettier --print-width 100 --trailing-comma es5 --single-quote --write '*.js'",
+    "build:prod": "webpack -p --config webpack.config.js --env.production",
+    "watch": "webpack --progress --watch"
+  },
+  "dependencies": {
+    "prettier": "^1.6.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "webpack": "^3.5.5"
+  }
+}
