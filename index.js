@@ -31,18 +31,23 @@ questions.forEach(question_id => {
       text-align: center;
       margin-top: -34px;
     `,
+    gridline: `
+      position: absolute;
+      width: 100%;
+      border-top: 1px solid beige;
+    `,
   };
   //q.hideChoices();
   q.getChoiceContainer().insertAdjacentHTML(
     'afterend',
     `
     <div style="${styles.widget}" class="histogram-widget" data-question-id="${question_id}">
-      <div style="position: absolute; left: -35px; bottom: -10px;">0%</div>
-      <div style="position: absolute; left: -40px; top: 50%; margin-top: -5px;">50%</div>
-      <div style="position: absolute; left: -45px; top: 0; margin-top: -5px;">100%</div>
-      <div style="position: absolute; width: 100%; top: 50%; border-top: 1px solid beige;"></div>
-      <div style="position: absolute; width: 100%; top: 25%; border-top: 1px solid beige;"></div>
-      <div style="position: absolute; width: 100%; top: 75%; border-top: 1px solid beige;"></div>
+      <div style="position: absolute; left: -35px; margin-top: -0.5em; top: 100%;">0%</div>
+      <div style="position: absolute; left: -40px; margin-top: -0.5em; top: 50%;">50%</div>
+      <div style="position: absolute; left: -45px; margin-top: -0.5em; top: 0;">100%</div>
+      <div style="${styles.gridline} top: 50%;"></div>
+      <div style="${styles.gridline} top: 25%;"></div>
+      <div style="${styles.gridline} top: 75%;"></div>
       ${q
         .getChoices()
         .map(
@@ -56,32 +61,32 @@ questions.forEach(question_id => {
     </div>
   `
   );
-  var mouseup = null;
-  const mouseMove = ({ widget, bar }) => {
-    const hper = bar.querySelector('.histogram-percentage');
-    return ev => {
-      let rect = widget.getBoundingClientRect();
-      let percent =
-        (rect.top + document.body.scrollTop - ev.pageY + rect.height) / rect.height * 100;
-      percent = Math.min(100, percent);
-      percent = Math.max(0, percent);
-      bar.style.height = `${percent}%`;
-      hper.innerText = parseInt(percent, 10) + '%';
-    };
+});
+
+var mouseup = null;
+const mouseMove = ({ widget, bar }) => {
+  const hper = bar.querySelector('.histogram-percentage');
+  return ev => {
+    let rect = widget.getBoundingClientRect();
+    let percent = (rect.top + document.body.scrollTop - ev.pageY + rect.height) / rect.height * 100;
+    percent = Math.min(100, percent);
+    percent = Math.max(0, percent);
+    bar.style.height = `${percent}%`;
+    hper.innerText = parseInt(percent, 10) + '%';
   };
-  const mouseUp = ({ mousemove, bar }) => ev => {
-    bar.style.backgroundColor = 'blue';
-    document.removeEventListener('mousemove', mousemove);
-    document.removeEventListener('mouseup', mouseup);
-  };
-  document.addEventListener('mousedown', ev => {
-    if (ev.target.className === 'histogram-grabber') {
-      let bar = ev.target.parentElement;
-      let widget = bar.parentElement;
-      let mousemove = mouseMove({ widget, bar });
-      mouseup = mouseUp({ mousemove, bar, widget });
-      document.addEventListener('mousemove', mousemove);
-      document.addEventListener('mouseup', mouseup);
-    }
-  });
+};
+const mouseUp = ({ mousemove, bar }) => ev => {
+  bar.style.backgroundColor = 'blue';
+  document.removeEventListener('mousemove', mousemove);
+  document.removeEventListener('mouseup', mouseup);
+};
+document.addEventListener('mousedown', ev => {
+  if (ev.target.className === 'histogram-grabber') {
+    let bar = ev.target.parentElement;
+    let widget = bar.parentElement;
+    let mousemove = mouseMove({ widget, bar });
+    mouseup = mouseUp({ mousemove, bar, widget });
+    document.addEventListener('mousemove', mousemove);
+    document.addEventListener('mouseup', mouseup);
+  }
 });
