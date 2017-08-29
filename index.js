@@ -2,6 +2,19 @@ const questions = ['QID1', 'QID2'];
 const questionInfo = Qualtrics.SurveyEngine.QuestionInfo;
 var widgets = {};
 
+const updateStateOfNextButton = widgets => {
+  let widget;
+  for (let key of Object.keys(widgets)) {
+    widget = widgets[key];
+    let total = parseInt(widget.total.innerText, 10);
+    if (total !== 100) {
+      widget.question.disableNextButton();
+      return;
+    }
+  }
+  widget.question.enableNextButton();
+};
+
 questions.forEach(question_id => {
   if (!(question_id in questionInfo)) {
     return;
@@ -105,11 +118,7 @@ questions.forEach(question_id => {
     total: inserted.querySelector('.total'),
   };
 
-  if (parseInt(widgets[inserted.id].total.innerText, 10) === 100) {
-    widgets[inserted.id].question.enableNextButton();
-  } else {
-    widgets[inserted.id].question.disableNextButton();
-  }
+  updateStateOfNextButton(widgets);
 });
 
 var mouseup = null;
@@ -154,11 +163,7 @@ const mouseUp = ({ mousemove, bar, widget }) => {
       );
     });
 
-    if (parseInt(widgetObj.total.innerText, 10) === 100) {
-      widgetObj.question.enableNextButton();
-    } else {
-      widgetObj.question.disableNextButton();
-    }
+    updateStateOfNextButton(widgets);
   };
 };
 document.addEventListener('mousedown', ev => {
