@@ -2,10 +2,15 @@ const path = require('path');
 
 module.exports = (env = {}) => ({
   entry: './index.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
+  output: env.production
+    ? {
+        filename: 'bundle-[chunkhash].js',
+        path: path.resolve(__dirname, 'dist'),
+      }
+    : {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+      },
   devtool: env.production ? 'cheap-module-source-map' : 'inline-source-map',
   module: {
     rules: [
