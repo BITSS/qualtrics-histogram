@@ -139,6 +139,12 @@ const mouseUp = ({ mousemove, bar, widget }) => {
         parseInt(bar.style.height, 10)
       );
     });
+
+    if (parseInt(widgetObj.total.innerText, 10) === 100) {
+      widgetObj.question.enableNextButton();
+    } else {
+      widgetObj.question.disableNextButton();
+    }
   };
 };
 document.addEventListener('mousedown', ev => {
