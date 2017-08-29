@@ -13,7 +13,7 @@ questions.forEach(question_id => {
     widget: `
       height: 240px;
       position: relative;
-      margin: 40px 150px 0 50px;
+      margin: 40px 150px 4em 50px;
       border: 1px solid beige;
     `,
     bar: `
@@ -53,6 +53,14 @@ questions.forEach(question_id => {
       top: 50%;
       margin-top: -1em;
     `,
+    xlabel: `
+      position: absolute;
+      top: 100%;
+      margin-top: 10px;
+      width: ${barWidth}px;
+      text-align: center;
+      font-size: 12px;
+    `,
   };
   //q.hideChoices();
   let histogramId = `histogram_${Math.random()}`;
@@ -74,7 +82,9 @@ questions.forEach(question_id => {
             `<div class="histogram-bar" style="${styles.bar} left: ${index * (barWidth - 1)}px;">
               <div class="histogram-grabber" style="${styles.grabber}"></div>
               <div class="histogram-percentage" style="${styles.percentage}">20%</div>
-            </div>`
+            </div>
+            <div class="x-label" style="${styles.xlabel} left: ${index * (barWidth - 1)}px;">${qInfo
+              .Choices[index + 1].Text}</div>`
         )
         .join('')}
     </div>
