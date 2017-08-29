@@ -97,10 +97,11 @@ const mouseMove = ({ widget, bar }) => {
   return ev => {
     let rect = widget.getBoundingClientRect();
     let percent = (rect.top + document.body.scrollTop - ev.pageY + rect.height) / rect.height * 100;
-    percent = Math.min(100, percent);
-    percent = Math.max(0, percent);
+    percent = Math.max(0, Math.min(100, percent));
+
     bar.style.height = `${percent}%`;
     hper.innerText = parseInt(percent, 10) + '%';
+
     let totalPercentage = [...widgetObj.bars]
       .map(bar => parseInt(bar.style.height, 10))
       .reduce((sum, value) => sum + value, 0);
