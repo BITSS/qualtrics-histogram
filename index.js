@@ -101,10 +101,15 @@ const mouseMove = ({ widget, bar }) => {
     percent = Math.max(0, percent);
     bar.style.height = `${percent}%`;
     hper.innerText = parseInt(percent, 10) + '%';
-    widgetObj.total.innerText =
-      [...widgetObj.bars]
-        .map(bar => parseInt(bar.style.height, 10))
-        .reduce((sum, value) => sum + value, 0) + '%';
+    let totalPercentage = [...widgetObj.bars]
+      .map(bar => parseInt(bar.style.height, 10))
+      .reduce((sum, value) => sum + value, 0);
+    widgetObj.total.innerText = totalPercentage + '%';
+    if (totalPercentage > 100) {
+      widgetObj.total.style.color = 'red';
+    } else {
+      widgetObj.total.style.color = 'inherit';
+    }
   };
 };
 const mouseUp = ({ mousemove, bar }) => ev => {
