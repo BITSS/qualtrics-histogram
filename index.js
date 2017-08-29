@@ -22,7 +22,7 @@ questions.forEach(question_id => {
       bottom: 0;
       width: ${barWidth}%;
       background-color: gray;
-      height: 20%;
+      height: ${barWidth}%;
     `,
     grabber: `
       height: 10px;
