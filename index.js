@@ -77,15 +77,15 @@ questions.forEach(question_id => {
       <div style="${styles.total}"><strong>Total</strong><br /><span class="total">100%</span></div>
       ${q
         .getChoices()
-        .map(
-          (choice, index) =>
-            `<div class="histogram-bar" style="${styles.bar} left: ${index * barWidth}%;">
+        .map((choice, index) => {
+          q.setChoiceValue(choice, barWidth);
+          return `<div class="histogram-bar" style="${styles.bar} left: ${index * barWidth}%;">
               <div class="histogram-grabber" style="${styles.grabber}"></div>
-              <div class="histogram-percentage" style="${styles.percentage}">20%</div>
+              <div class="histogram-percentage" style="${styles.percentage}">${barWidth}%</div>
             </div>
             <div class="x-label" style="${styles.xlabel} left: ${index * barWidth}%;">${qInfo
-              .Choices[index + 1].Text}</div>`
-        )
+            .Choices[index + 1].Text}</div>`;
+        })
         .join('')}
     </div>
   `
