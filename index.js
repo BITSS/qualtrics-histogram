@@ -12,7 +12,9 @@ const updateStateOfNextButton = widgets => {
       return;
     }
   }
-  widget.question.enableNextButton();
+  if (widget) {
+    widget.question.enableNextButton();
+  }
 };
 
 questions.forEach(question_id => {
@@ -75,9 +77,14 @@ questions.forEach(question_id => {
       font-size: 12px;
     `,
   };
-  //q.hideChoices();
+  q.hideChoices();
   let histogramId = `histogram_${Math.random()}`;
-  q.getChoiceContainer().insertAdjacentHTML(
+  let choiceContainer = q.getChoiceContainer();
+  if (!document.contains(choiceContainer)) {
+    choiceContainer = document.getElementById(question_id).querySelector('.ChoiceStructure');
+    choiceContainer.style.display = 'none';
+  }
+  choiceContainer.insertAdjacentHTML(
     'afterend',
     `
     <div id="${histogramId}" style="${styles.widget}" class="histogram-widget" data-question-id="${question_id}">
@@ -110,13 +117,15 @@ questions.forEach(question_id => {
   `
   );
   let inserted = document.getElementById(histogramId);
-  widgets[inserted.id] = {
-    element: inserted,
-    qinfo: qInfo,
-    question: q,
-    bars: inserted.querySelectorAll('.histogram-bar'),
-    total: inserted.querySelector('.total'),
-  };
+  if (inserted) {
+    widgets[inserted.id] = {
+      element: inserted,
+      qinfo: qInfo,
+      question: q,
+      bars: inserted.querySelectorAll('.histogram-bar'),
+      total: inserted.querySelector('.total'),
+    };
+  }
 
   updateStateOfNextButton(widgets);
 });
@@ -125,6 +134,9 @@ var mouseup = null;
 const mouseMove = ({ widget, bar }) => {
   const widgetObj = widgets[widget.id];
   const hper = bar.querySelector('.histogram-percentage');
+  if (!widgetObj || !hper) {
+    return () => null;
+  }
   return ev => {
     let rect = widget.getBoundingClientRect();
     let percent = (rect.top + document.body.scrollTop - ev.pageY + rect.height) / rect.height * 100;
@@ -148,6 +160,9 @@ const mouseMove = ({ widget, bar }) => {
 };
 const mouseUp = ({ mousemove, bar, widget }) => {
   const widgetObj = widgets[widget.id];
+  if (!widgetObj) {
+    return () => null;
+  }
   return ev => {
     document.removeEventListener('mousemove', mousemove);
     document.removeEventListener('mouseup', mouseup);
