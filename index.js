@@ -74,14 +74,20 @@ questions.forEach(question_id => {
       <div style="${styles.gridline} top: 50%;"></div>
       <div style="${styles.gridline} top: 25%;"></div>
       <div style="${styles.gridline} top: 75%;"></div>
-      <div style="${styles.total}"><strong>Total</strong><br /><span class="total">100%</span></div>
+      <div style="${styles.total}"><strong>Total</strong><br /><span class="total">${parseInt(
+      barWidth,
+      10
+    ) * q.getChoices().length}%</span></div>
       ${q
         .getChoices()
         .map((choice, index) => {
-          q.setChoiceValue(choice, barWidth);
+          q.setChoiceValue(choice, parseInt(barWidth, 10));
           return `<div class="histogram-bar" style="${styles.bar} left: ${index * barWidth}%;">
               <div class="histogram-grabber" style="${styles.grabber}"></div>
-              <div class="histogram-percentage" style="${styles.percentage}">${barWidth}%</div>
+              <div class="histogram-percentage" style="${styles.percentage}">${parseInt(
+            barWidth,
+            10
+          )}%</div>
             </div>
             <div class="x-label" style="${styles.xlabel} left: ${index * barWidth}%;">${qInfo
             .Choices[index + 1].Text}</div>`;
@@ -98,6 +104,12 @@ questions.forEach(question_id => {
     bars: inserted.querySelectorAll('.histogram-bar'),
     total: inserted.querySelector('.total'),
   };
+
+  if (parseInt(widgets[inserted.id].total.innerText, 10) === 100) {
+    widgets[inserted.id].question.enableNextButton();
+  } else {
+    widgets[inserted.id].question.disableNextButton();
+  }
 });
 
 var mouseup = null;
