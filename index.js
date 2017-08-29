@@ -8,7 +8,7 @@ questions.forEach(question_id => {
   }
   let qInfo = questionInfo[question_id];
   let q = Qualtrics.SurveyEngine.QuestionData.getInstance(question_id);
-  const barWidth = 100;
+  const barWidth = 100 / q.getChoices().length;
   const styles = {
     widget: `
       height: 240px;
@@ -20,7 +20,7 @@ questions.forEach(question_id => {
       border: 1px solid black;
       position: absolute;
       bottom: 0;
-      width: ${barWidth}px;
+      width: ${barWidth}%;
       background-color: gray;
       height: 20%;
     `,
@@ -57,7 +57,7 @@ questions.forEach(question_id => {
       position: absolute;
       top: 100%;
       margin-top: 10px;
-      width: ${barWidth}px;
+      width: ${barWidth}%;
       text-align: center;
       font-size: 12px;
     `,
@@ -79,11 +79,11 @@ questions.forEach(question_id => {
         .getChoices()
         .map(
           (choice, index) =>
-            `<div class="histogram-bar" style="${styles.bar} left: ${index * (barWidth - 1)}px;">
+            `<div class="histogram-bar" style="${styles.bar} left: ${index * barWidth}%;">
               <div class="histogram-grabber" style="${styles.grabber}"></div>
               <div class="histogram-percentage" style="${styles.percentage}">20%</div>
             </div>
-            <div class="x-label" style="${styles.xlabel} left: ${index * (barWidth - 1)}px;">${qInfo
+            <div class="x-label" style="${styles.xlabel} left: ${index * barWidth}%;">${qInfo
               .Choices[index + 1].Text}</div>`
         )
         .join('')}
