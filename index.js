@@ -106,7 +106,7 @@ const mouseMove = ({ widget, bar }) => {
       .map(bar => parseInt(bar.style.height, 10))
       .reduce((sum, value) => sum + value, 0);
     widgetObj.total.innerText = totalPercentage + '%';
-    if (totalPercentage > 100) {
+    if (totalPercentage !== 100) {
       widgetObj.total.style.color = 'red';
     } else {
       widgetObj.total.style.color = 'inherit';
