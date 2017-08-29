@@ -1,5 +1,7 @@
 const questions = ['QID1', 'QID2'];
 const questionInfo = Qualtrics.SurveyEngine.QuestionInfo;
+var widgets = {};
+
 questions.forEach(question_id => {
   if (!(question_id in questionInfo)) {
     return;
@@ -43,18 +45,28 @@ questions.forEach(question_id => {
       text-align: right;
       margin-top: -0.5em;
     `,
+    total: `
+      position: absolute;
+      right: -150px;
+      width: 150px;
+      text-align: center;
+      top: 50%;
+      margin-top: -1em;
+    `,
   };
   //q.hideChoices();
+  let histogramId = `histogram_${Math.random()}`;
   q.getChoiceContainer().insertAdjacentHTML(
     'afterend',
     `
-    <div style="${styles.widget}" class="histogram-widget" data-question-id="${question_id}">
+    <div id="${histogramId}" style="${styles.widget}" class="histogram-widget" data-question-id="${question_id}">
       <div style="${styles.yaxis} top: 100%;">0%</div>
       <div style="${styles.yaxis} top: 50%;">50%</div>
       <div style="${styles.yaxis} top: 0;">100%</div>
       <div style="${styles.gridline} top: 50%;"></div>
       <div style="${styles.gridline} top: 25%;"></div>
       <div style="${styles.gridline} top: 75%;"></div>
+      <div style="${styles.total}"><strong>Total</strong><br /><span class="total">100%</span></div>
       ${q
         .getChoices()
         .map(
@@ -68,10 +80,19 @@ questions.forEach(question_id => {
     </div>
   `
   );
+  let inserted = document.getElementById(histogramId);
+  widgets[inserted.id] = {
+    element: inserted,
+    qinfo: qInfo,
+    question: q,
+    bars: inserted.querySelectorAll('.histogram-bar'),
+    total: inserted.querySelector('.total'),
+  };
 });
 
 var mouseup = null;
 const mouseMove = ({ widget, bar }) => {
+  const widgetObj = widgets[widget.id];
   const hper = bar.querySelector('.histogram-percentage');
   return ev => {
     let rect = widget.getBoundingClientRect();
@@ -80,6 +101,10 @@ const mouseMove = ({ widget, bar }) => {
     percent = Math.max(0, percent);
     bar.style.height = `${percent}%`;
     hper.innerText = parseInt(percent, 10) + '%';
+    widgetObj.total.innerText =
+      [...widgetObj.bars]
+        .map(bar => parseInt(bar.style.height, 10))
+        .reduce((sum, value) => sum + value, 0) + '%';
   };
 };
 const mouseUp = ({ mousemove, bar }) => ev => {
