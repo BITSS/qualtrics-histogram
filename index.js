@@ -36,15 +36,22 @@ questions.forEach(question_id => {
       width: 100%;
       border-top: 1px solid beige;
     `,
+    yaxis: `
+      position: absolute;
+      left: -50px;
+      width: 45px;
+      text-align: right;
+      margin-top: -0.5em;
+    `,
   };
   //q.hideChoices();
   q.getChoiceContainer().insertAdjacentHTML(
     'afterend',
     `
     <div style="${styles.widget}" class="histogram-widget" data-question-id="${question_id}">
-      <div style="position: absolute; left: -35px; margin-top: -0.5em; top: 100%;">0%</div>
-      <div style="position: absolute; left: -40px; margin-top: -0.5em; top: 50%;">50%</div>
-      <div style="position: absolute; left: -45px; margin-top: -0.5em; top: 0;">100%</div>
+      <div style="${styles.yaxis} top: 100%;">0%</div>
+      <div style="${styles.yaxis} top: 50%;">50%</div>
+      <div style="${styles.yaxis} top: 0;">100%</div>
       <div style="${styles.gridline} top: 50%;"></div>
       <div style="${styles.gridline} top: 25%;"></div>
       <div style="${styles.gridline} top: 75%;"></div>
