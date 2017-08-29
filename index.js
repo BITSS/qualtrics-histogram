@@ -6,12 +6,13 @@ questions.forEach(question_id => {
   }
   let qInfo = questionInfo[question_id];
   let q = Qualtrics.SurveyEngine.QuestionData.getInstance(question_id);
-  const barWidth = 80;
+  const barWidth = 100;
   const styles = {
     widget: `
       height: 240px;
-      width: 100%;
       position: relative;
+      margin: 40px 150px 0 50px;
+      border: 1px solid beige;
     `,
     bar: `
       border: 1px solid black;
@@ -23,7 +24,7 @@ questions.forEach(question_id => {
     `,
     grabber: `
       height: 10px;
-      background-color: red;
+      background-color: #297fca;
       cursor: ns-resize;
     `,
     percentage: `
@@ -36,6 +37,12 @@ questions.forEach(question_id => {
     'afterend',
     `
     <div style="${styles.widget}" class="histogram-widget" data-question-id="${question_id}">
+      <div style="position: absolute; left: -35px; bottom: -10px;">0%</div>
+      <div style="position: absolute; left: -40px; top: 50%; margin-top: -5px;">50%</div>
+      <div style="position: absolute; left: -45px; top: 0; margin-top: -5px;">100%</div>
+      <div style="position: absolute; width: 100%; top: 50%; border-top: 1px solid beige;"></div>
+      <div style="position: absolute; width: 100%; top: 25%; border-top: 1px solid beige;"></div>
+      <div style="position: absolute; width: 100%; top: 75%; border-top: 1px solid beige;"></div>
       ${q
         .getChoices()
         .map(
