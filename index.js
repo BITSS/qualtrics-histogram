@@ -113,10 +113,23 @@ const mouseMove = ({ widget, bar }) => {
     }
   };
 };
-const mouseUp = ({ mousemove, bar }) => ev => {
-  bar.style.backgroundColor = 'blue';
-  document.removeEventListener('mousemove', mousemove);
-  document.removeEventListener('mouseup', mouseup);
+const mouseUp = ({ mousemove, bar, widget }) => {
+  const widgetObj = widgets[widget.id];
+  return ev => {
+    document.removeEventListener('mousemove', mousemove);
+    document.removeEventListener('mouseup', mouseup);
+
+    // Indicate this bar has been moved.
+    bar.style.backgroundColor = 'blue';
+
+    // Update values for each choice.
+    widgetObj.bars.forEach((bar, index) => {
+      widgetObj.question.setChoiceValue(
+        widgetObj.question.getChoices()[index],
+        parseInt(bar.style.height, 10)
+      );
+    });
+  };
 };
 document.addEventListener('mousedown', ev => {
   if (ev.target.className === 'histogram-grabber') {
