@@ -1,3 +1,4 @@
+const handleIcon = require('./handle-icon.png');
 const questions = ['QID1', 'QID2'];
 const questionInfo = Qualtrics.SurveyEngine.QuestionInfo;
 var widgets = {};
@@ -40,13 +41,14 @@ questions.forEach(question_id => {
       height: ${barWidth}%;
     `,
     grabber: `
-      height: 10px;
-      background-color: #297fca;
+      height: 30px;
+      margin-top: -13px;
       cursor: ns-resize;
+      background: url(${handleIcon}) no-repeat center;
     `,
     percentage: `
       text-align: center;
-      margin-top: -34px;
+      margin-top: -54px;
     `,
     gridline: `
       position: absolute;
