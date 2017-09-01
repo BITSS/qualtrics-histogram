@@ -25,6 +25,7 @@ questions.forEach(question_id => {
   let qInfo = questionInfo[question_id];
   let q = Qualtrics.SurveyEngine.QuestionData.getInstance(question_id);
   const barWidth = 100 / q.getChoices().length;
+  const startingPercentage = parseInt(barWidth, 10);
   const styles = {
     widget: `
       height: 240px;
@@ -38,7 +39,7 @@ questions.forEach(question_id => {
       bottom: 0;
       width: ${barWidth}%;
       background-color: gray;
-      height: ${barWidth}%;
+      height: ${startingPercentage}%;
     `,
     grabber: `
       height: 30px;
@@ -86,7 +87,6 @@ questions.forEach(question_id => {
     choiceContainer = document.getElementById(question_id).querySelector('.ChoiceStructure');
     choiceContainer.style.display = 'none';
   }
-  const startingPercentage = parseInt(barWidth, 10);
   choiceContainer.insertAdjacentHTML(
     'afterend',
     `
