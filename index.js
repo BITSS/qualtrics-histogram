@@ -166,7 +166,7 @@ const mouseUp = ({ mousemove, bar, widget }) => {
     document.removeEventListener('mouseup', mouseup);
 
     // Indicate this bar has been moved.
-    bar.style.backgroundColor = 'blue';
+    bar.style.backgroundColor = '#790200';
 
     // Update values for each choice.
     widgetObj.bars.forEach((bar, index) => {
