@@ -38,7 +38,7 @@ questions.forEach(question_id => {
       position: absolute;
       bottom: 0;
       width: ${barWidth}%;
-      background-color: gray;
+      background-color: #790200;
       height: ${startingPercentage}%;
     `,
     grabber: `
