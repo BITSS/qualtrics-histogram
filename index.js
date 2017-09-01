@@ -1,6 +1,6 @@
 const handleIcon = require('./handle-icon.png');
-//const questions = ['QID44', 'QID46', 'QID74', 'QID75'];
-const questions = ['QID1', 'QID2'];
+const questions = ['QID44', 'QID46', 'QID74', 'QID75'];
+//const questions = ['QID1', 'QID2'];
 const questionInfo = Qualtrics.SurveyEngine.QuestionInfo;
 var widgets = {};
 
