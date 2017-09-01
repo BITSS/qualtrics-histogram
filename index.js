@@ -86,6 +86,7 @@ questions.forEach(question_id => {
     choiceContainer = document.getElementById(question_id).querySelector('.ChoiceStructure');
     choiceContainer.style.display = 'none';
   }
+  const startingPercentage = parseInt(barWidth, 10);
   choiceContainer.insertAdjacentHTML(
     'afterend',
     `
@@ -96,20 +97,15 @@ questions.forEach(question_id => {
       <div style="${styles.gridline} top: 50%;"></div>
       <div style="${styles.gridline} top: 25%;"></div>
       <div style="${styles.gridline} top: 75%;"></div>
-      <div style="${styles.total}"><strong>Total</strong><br /><span class="total">${parseInt(
-      barWidth,
-      10
-    ) * q.getChoices().length}%</span></div>
+      <div style="${styles.total}"><strong>Total</strong><br /><span class="total">${startingPercentage *
+      q.getChoices().length}%</span></div>
       ${q
         .getChoices()
         .map((choice, index) => {
-          q.setChoiceValue(choice, parseInt(barWidth, 10));
+          q.setChoiceValue(choice, startingPercentage);
           return `<div class="histogram-bar" style="${styles.bar} left: ${index * barWidth}%;">
               <div class="histogram-grabber" style="${styles.grabber}"></div>
-              <div class="histogram-percentage" style="${styles.percentage}">${parseInt(
-            barWidth,
-            10
-          )}%</div>
+              <div class="histogram-percentage" style="${styles.percentage}">${startingPercentage}%</div>
             </div>
             <div class="x-label" style="${styles.xlabel} left: ${index * barWidth}%;">${qInfo
             .Choices[index + 1].Text}</div>`;
