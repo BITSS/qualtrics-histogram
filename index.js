@@ -25,7 +25,7 @@ questions.forEach(question_id => {
   let qInfo = questionInfo[question_id];
   let q = Qualtrics.SurveyEngine.QuestionData.getInstance(question_id);
   const barWidth = 100 / q.getChoices().length;
-  const startingPercentage = parseInt(barWidth, 10);
+  const startingPercentage = 0;
   const styles = {
     widget: `
       height: 240px;
