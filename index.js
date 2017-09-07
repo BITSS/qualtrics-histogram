@@ -27,11 +27,12 @@ questions.forEach(question_id => {
   let q = Qualtrics.SurveyEngine.QuestionData.getInstance(question_id);
   const barWidth = 100 / q.getChoices().length;
   const startingPercentage = 0;
+  const widgetWidth = 240;
   const styles = {
     widget: `
-      height: 240px;
+      height: ${widgetWidth}px;
       position: relative;
-      margin: 40px 150px 4em 50px;
+      margin: 40px 150px 4em 80px;
       border: 1px solid beige;
     `,
     bar: `
@@ -80,6 +81,21 @@ questions.forEach(question_id => {
       text-align: center;
       font-size: 12px;
     `,
+    yaxislabel: `
+      position: absolute;
+      bottom: 0;
+      left: -70px;
+      transform: rotate(-90deg);
+      -ms-transform: rotate(-90deg);
+      -moz-transform: rotate(-90deg);
+      -webkit-transform: rotate(-90deg);
+      transform-origin: left;
+      -ms-transform-origin: left;
+      -moz-transform-origin: left;
+      -webkit-transform-origin: left;
+      width: ${widgetWidth}px;
+      text-align: center;
+    `,
   };
   q.hideChoices();
   let histogramId = `histogram_${Math.random()}`;
@@ -92,6 +108,7 @@ questions.forEach(question_id => {
     'afterend',
     `
     <div id="${histogramId}" style="${styles.widget}" class="histogram-widget" data-question-id="${question_id}">
+      <div style="${styles.yaxislabel}">Percent who agree</div>
       <div style="${styles.yaxis} top: 100%;">0%</div>
       <div style="${styles.yaxis} top: 50%;">50%</div>
       <div style="${styles.yaxis} top: 0;">100%</div>
