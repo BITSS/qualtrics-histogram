@@ -156,7 +156,8 @@ const mouseMove = ({ widget, bar }) => {
   }
   return ev => {
     let rect = widget.getBoundingClientRect();
-    let percent = (rect.top + document.body.scrollTop - ev.pageY + rect.height) / rect.height * 100;
+    let scrollY = window.scrollY || document.documentElement.scrollTop;
+    let percent = (rect.top + scrollY - ev.pageY + rect.height) / rect.height * 100;
     percent = Math.max(0, Math.min(100, percent));
 
     // Set bar height and label.
