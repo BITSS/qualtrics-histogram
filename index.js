@@ -2,6 +2,7 @@ const handleIcon = require('./handle-icon.png');
 const questions = ['QID44', 'QID46', 'QID74', 'QID75'];
 //const questions = ['QID1', 'QID2'];
 const questionInfo = Qualtrics.SurveyEngine.QuestionInfo;
+let histogram = window.histogram || {};
 var widgets = {};
 
 const updateStateOfNextButton = widgets => {
@@ -197,7 +198,9 @@ const mouseUp = ({ mousemove, bar, widget }) => {
     updateStateOfNextButton(widgets);
   };
 };
-document.addEventListener('mousedown', ev => {
+var mouseDownUnmount = () => {};
+const mouseDown = ev => {
+  mouseDownUnmount();
   if (ev.target.className === 'histogram-grabber') {
     let bar = ev.target.parentElement;
     let widget = bar.parentElement;
@@ -205,5 +208,15 @@ document.addEventListener('mousedown', ev => {
     mouseup = mouseUp({ mousemove, bar, widget });
     document.addEventListener('mousemove', mousemove);
     document.addEventListener('mouseup', mouseup);
+    mouseDownUnmount = () => {
+      document.removeEventListener('mousemove', mousemove);
+      document.removeEventListener('mouseup', mouseup);
+    };
   }
-});
+};
+if (histogram.unmount) {
+  histogram.unmount();
+}
+document.addEventListener('mousedown', mouseDown);
+histogram = { unmount: () => document.removeEventListener('mousedown', mouseDown) };
+window.histogram = histogram;
