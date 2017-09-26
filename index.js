@@ -83,6 +83,7 @@ questions.forEach(question_id => {
       width: ${barWidth}%;
       text-align: center;
       font-size: 12px;
+      padding: 0 1em;
     `,
     yaxislabel: `
       position: absolute;
