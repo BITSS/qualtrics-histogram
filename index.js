@@ -110,7 +110,7 @@ questions.forEach(question_id => {
     'afterend',
     `
     <div id="${histogramId}" style="${styles.widget}" class="histogram-widget" data-question-id="${question_id}">
-      <div style="${styles.yaxislabel}">Percent who agree</div>
+      <div style="${styles.yaxislabel}">Percentage of the field</div>
       <div style="${styles.yaxis} top: 100%;">0%</div>
       <div style="${styles.yaxis} top: 50%;">50%</div>
       <div style="${styles.yaxis} top: 0;">100%</div>
