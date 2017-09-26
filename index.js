@@ -46,14 +46,14 @@ questions.forEach(question_id => {
       height: ${startingPercentage}%;
     `,
     grabber: `
-      height: 30px;
-      margin-top: -13px;
+      height: 50px;
+      margin-top: -23px;
       cursor: ns-resize;
       background: url(${handleIcon}) no-repeat center;
     `,
     percentage: `
       text-align: center;
-      margin-top: -54px;
+      margin-top: -64px;
     `,
     gridline: `
       position: absolute;
