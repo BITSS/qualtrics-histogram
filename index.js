@@ -73,6 +73,7 @@ questions.forEach(question_id => {
       text-align: center;
       top: 50%;
       margin-top: -1em;
+      font-size: 24px;
     `,
     xlabel: `
       position: absolute;
