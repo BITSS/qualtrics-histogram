@@ -29,9 +29,10 @@ questions.forEach(question_id => {
   const barWidth = 100 / q.getChoices().length;
   const startingPercentage = 0;
   const widgetWidth = 240;
+  const widgetHeight = 480;
   const styles = {
     widget: `
-      height: ${widgetWidth}px;
+      height: ${widgetHeight}px;
       position: relative;
       margin: 40px 150px 4em 80px;
       border: 1px solid beige;
@@ -95,7 +96,7 @@ questions.forEach(question_id => {
       -ms-transform-origin: left;
       -moz-transform-origin: left;
       -webkit-transform-origin: left;
-      width: ${widgetWidth}px;
+      width: ${widgetHeight}px;
       text-align: center;
     `,
   };
