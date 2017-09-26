@@ -222,5 +222,7 @@ if (histogram.unmount) {
   histogram.unmount();
 }
 document.addEventListener('mousedown', mouseDown);
-histogram = { unmount: () => document.removeEventListener('mousedown', mouseDown) };
+histogram = {
+  unmount: () => document.removeEventListener('mousedown', mouseDown),
+};
 window.histogram = histogram;
