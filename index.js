@@ -79,7 +79,7 @@ questions.forEach(question_id => {
     xlabel: `
       position: absolute;
       top: 100%;
-      margin-top: 10px;
+      margin-top: 16px;
       width: ${barWidth}%;
       text-align: center;
       font-size: 12px;
@@ -125,11 +125,13 @@ questions.forEach(question_id => {
         .getChoices()
         .map((choice, index) => {
           q.setChoiceValue(choice, startingPercentage);
-          return `<div class="histogram-bar" style="${styles.bar} left: ${index * barWidth}%;">
+          return `<div class="histogram-bar histogram-bar-${index}" data-input=".x-label-${index}" style="${styles.bar} left: ${index *
+            barWidth}%;">
               <div class="histogram-grabber" style="${styles.grabber}"></div>
               <div class="histogram-percentage" style="${styles.percentage}">${startingPercentage}%</div>
             </div>
-            <div class="x-label" style="${styles.xlabel} left: ${index * barWidth}%;">${qInfo
+            <div class="x-label x-label-${index}" data-bar=".histogram-bar-${index}" style="${styles.xlabel} left: ${index *
+            barWidth}%;"><input class="pinput" value="${startingPercentage}" type="number" max="100" min="0" size="3" style="width: 4em;"><br/>${qInfo
             .Choices[index + 1].Text}</div>`;
         })
         .join('')}
@@ -149,11 +151,25 @@ questions.forEach(question_id => {
 
   updateStateOfNextButton(widgets);
 });
-
+const updateTotalPercentage = widgetObj => {
+  // Calculate total percentage and set color of total.
+  let totalPercentage = [...widgetObj.bars]
+    .map(bar => parseInt(bar.style.height, 10))
+    .reduce((sum, value) => sum + value, 0);
+  widgetObj.total.innerText = totalPercentage + '%';
+  if (totalPercentage > 100) {
+    widgetObj.total.style.color = 'red';
+  } else if (totalPercentage < 100) {
+    widgetObj.total.style.color = 'blue';
+  } else {
+    widgetObj.total.style.color = 'inherit';
+  }
+};
 var mouseup = null;
 const mouseMove = ({ widget, bar }) => {
   const widgetObj = widgets[widget.id];
   const hper = bar.querySelector('.histogram-percentage');
+  const percentInput = widget.querySelector(bar.getAttribute('data-input') + ' input');
   if (!widgetObj || !hper) {
     return () => null;
   }
@@ -165,20 +181,10 @@ const mouseMove = ({ widget, bar }) => {
 
     // Set bar height and label.
     bar.style.height = `${percent}%`;
-    hper.innerText = parseInt(percent, 10) + '%';
-
-    // Calculate total percentage and set color of total.
-    let totalPercentage = [...widgetObj.bars]
-      .map(bar => parseInt(bar.style.height, 10))
-      .reduce((sum, value) => sum + value, 0);
-    widgetObj.total.innerText = totalPercentage + '%';
-    if (totalPercentage > 100) {
-      widgetObj.total.style.color = 'red';
-    } else if (totalPercentage < 100) {
-      widgetObj.total.style.color = 'blue';
-    } else {
-      widgetObj.total.style.color = 'inherit';
-    }
+    const percentInt = parseInt(percent, 10);
+    hper.innerText = percentInt + '%';
+    percentInput.value = percentInt;
+    updateTotalPercentage(widgetObj);
   };
 };
 const mouseUp = ({ mousemove, bar, widget }) => {
@@ -220,11 +226,44 @@ const mouseDown = ev => {
     };
   }
 };
+const inputChange = ev => {
+  if (ev.target.className.indexOf('pinput') !== -1) {
+    const input = ev.target;
+    let percentage = Math.max(0, Math.min(100, parseInt(input.value, 10)));
+    if (isNaN(percentage)) {
+      percentage = 0;
+    }
+    // Set bar height and label.
+    const widget = input.parentElement.parentElement;
+    const bar = widget.querySelector(input.parentElement.getAttribute('data-bar'));
+    const hper = bar.querySelector('.histogram-percentage');
+    const widgetObj = widgets[widget.id];
+    bar.style.height = `${percentage}%`;
+    hper.innerText = percentage + '%';
+    updateTotalPercentage(widgetObj);
+
+    // Update values for each choice.
+    widgetObj.bars.forEach((bar, index) => {
+      widgetObj.question.setChoiceValue(
+        widgetObj.question.getChoices()[index],
+        parseInt(bar.style.height, 10)
+      );
+    });
+
+    updateStateOfNextButton(widgets);
+  }
+};
 if (histogram.unmount) {
   histogram.unmount();
 }
+document.addEventListener('keyup', inputChange);
+document.addEventListener('change', inputChange);
 document.addEventListener('mousedown', mouseDown);
 histogram = {
-  unmount: () => document.removeEventListener('mousedown', mouseDown),
+  unmount: () => {
+    document.removeEventListener('mousedown', mouseDown);
+    document.removeEventListener('keyup', inputChange);
+    document.removeEventListener('change', inputChange);
+  },
 };
 window.histogram = histogram;
