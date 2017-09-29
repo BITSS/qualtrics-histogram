@@ -29,7 +29,7 @@ questions.forEach(question_id => {
   const barWidth = 100 / q.getChoices().length;
   const startingPercentage = 0;
   const widgetWidth = 240;
-  const widgetHeight = 480;
+  const widgetHeight = 360;
   const styles = {
     widget: `
       height: ${widgetHeight}px;
