@@ -1,0 +1,89 @@
+.gridline {
+  position: absolute;
+  width: 100%;
+  border-top: 1px solid beige;
+}
+.yaxis {
+  position: absolute;
+  left: -50px;
+  width: 45px;
+  text-align: right;
+  margin-top: -0.5em;
+}
+.histogram-widget {
+  position: relative;
+  margin: 40px 150px 4em 80px;
+  border: 1px solid beige;
+}
+.xLabels {
+  position: absolute;
+  top: 100%;
+  margin-top: 16px;
+  width: 100%;
+}
+.x-label {
+  text-align: center;
+  font-size: 12px;
+  padding: 0 1em;
+  float: left;
+}
+.yaxislabel {
+  position: absolute;
+  bottom: 0;
+  left: -70px;
+  transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  transform-origin: left;
+  -ms-transform-origin: left;
+  -moz-transform-origin: left;
+  -webkit-transform-origin: left;
+  text-align: center;
+}
+.totalLabel {
+  position: absolute;
+  right: -150px;
+  width: 150px;
+  text-align: center;
+  top: 50%;
+  margin-top: -1em;
+  font-size: 24px;
+}
+.totalLabel strong {
+  display: block;
+}
+.pinput {
+  width: 48px;
+  max-width: 100%;
+}
+@media screen and (max-width: 599px) {
+  .histogram-widget {
+    margin: 40px 0px 5em 40px;
+  }
+  .yaxislabel {
+    font-size: 12px;
+    left: -46px;
+  }
+  .yaxis {
+    font-size: 14px;
+  }
+  .x-label {
+    font-size: 11px;
+  }
+  .totalLabel {
+    top: -10px;
+    right: auto;
+    left: 0;
+    width: 100%;
+    font-size: 20px;
+  }
+  .totalLabel strong {
+    display: inline;
+  }
+}
+@media screen and (max-width: 329px) {
+  .x-label {
+    font-size: 10px;
+  }
+}

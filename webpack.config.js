@@ -27,6 +27,10 @@ module.exports = (env = {}) => ({
         },
       },
       {
+        test: /\.css$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+      },
+      {
         test: /\.png$/,
         exclude: /node_modules/,
         use: { loader: 'url-loader' },

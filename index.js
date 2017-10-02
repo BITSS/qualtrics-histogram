@@ -5,6 +5,8 @@ const questionInfo = Qualtrics.SurveyEngine.QuestionInfo;
 let histogram = window.histogram || {};
 var widgets = {};
 
+import style from './index.css';
+
 const updateStateOfNextButton = widgets => {
   let widget;
   for (let key of Object.keys(widgets)) {
@@ -33,9 +35,6 @@ questions.forEach(question_id => {
   const styles = {
     widget: `
       height: ${widgetHeight}px;
-      position: relative;
-      margin: 40px 150px 4em 80px;
-      border: 1px solid beige;
     `,
     bar: `
       border: 1px solid black;
@@ -55,50 +54,11 @@ questions.forEach(question_id => {
       text-align: center;
       margin-top: -64px;
     `,
-    gridline: `
-      position: absolute;
-      width: 100%;
-      border-top: 1px solid beige;
-    `,
-    yaxis: `
-      position: absolute;
-      left: -50px;
-      width: 45px;
-      text-align: right;
-      margin-top: -0.5em;
-    `,
-    total: `
-      position: absolute;
-      right: -150px;
-      width: 150px;
-      text-align: center;
-      top: 50%;
-      margin-top: -1em;
-      font-size: 24px;
-    `,
     xlabel: `
-      position: absolute;
-      top: 100%;
-      margin-top: 16px;
       width: ${barWidth}%;
-      text-align: center;
-      font-size: 12px;
-      padding: 0 1em;
     `,
     yaxislabel: `
-      position: absolute;
-      bottom: 0;
-      left: -70px;
-      transform: rotate(-90deg);
-      -ms-transform: rotate(-90deg);
-      -moz-transform: rotate(-90deg);
-      -webkit-transform: rotate(-90deg);
-      transform-origin: left;
-      -ms-transform-origin: left;
-      -moz-transform-origin: left;
-      -webkit-transform-origin: left;
       width: ${widgetHeight}px;
-      text-align: center;
     `,
   };
   q.hideChoices();
@@ -112,15 +72,15 @@ questions.forEach(question_id => {
     'afterend',
     `
     <div id="${histogramId}" style="${styles.widget}" class="histogram-widget" data-question-id="${question_id}">
-      <div style="${styles.yaxislabel}">Percentage of the field</div>
-      <div style="${styles.yaxis} top: 100%;">0%</div>
-      <div style="${styles.yaxis} top: 50%;">50%</div>
-      <div style="${styles.yaxis} top: 0;">100%</div>
-      <div style="${styles.gridline} top: 50%;"></div>
-      <div style="${styles.gridline} top: 25%;"></div>
-      <div style="${styles.gridline} top: 75%;"></div>
-      <div style="${styles.total}"><strong>Total</strong><br /><span class="total">${startingPercentage *
-      q.getChoices().length}%</span></div>
+      <div class="yaxislabel" style="${styles.yaxislabel}">Percentage of the field</div>
+      <div class="yaxis" style="top: 100%;">0%</div>
+      <div class="yaxis" style="top: 50%;">50%</div>
+      <div class="yaxis" style="top: 0;">100%</div>
+      <div class="gridline" style="top: 50%;"></div>
+      <div class="gridline" style="top: 25%;"></div>
+      <div class="gridline" style="top: 75%;"></div>
+      <div class="totalLabel"><strong>Total</strong> <span class="total">${startingPercentage *
+        q.getChoices().length}%</span></div>
       ${q
         .getChoices()
         .map((choice, index) => {
@@ -129,12 +89,19 @@ questions.forEach(question_id => {
             barWidth}%;">
               <div class="histogram-grabber" style="${styles.grabber}"></div>
               <div class="histogram-percentage" style="${styles.percentage}">${startingPercentage}%</div>
-            </div>
-            <div class="x-label x-label-${index}" data-bar=".histogram-bar-${index}" style="${styles.xlabel} left: ${index *
-            barWidth}%;"><input class="pinput" value="${startingPercentage}" type="number" max="100" min="0" size="3" style="width: 4em;"><br/>${qInfo
+            </div>`;
+        })
+        .join('')}
+      <div class="xLabels">
+      ${q
+        .getChoices()
+        .map((choice, index) => {
+          return `<div class="x-label x-label-${index}" data-bar=".histogram-bar-${index}" style="${styles.xlabel} left: ${index *
+            barWidth}%;"><input class="pinput" value="${startingPercentage}" type="number" max="100" min="0" size="3"><br/>${qInfo
             .Choices[index + 1].Text}</div>`;
         })
         .join('')}
+      </div>
     </div>
   `
   );
@@ -234,7 +201,7 @@ const inputChange = ev => {
       percentage = 0;
     }
     // Set bar height and label.
-    const widget = input.parentElement.parentElement;
+    const widget = input.parentElement.parentElement.parentElement;
     const bar = widget.querySelector(input.parentElement.getAttribute('data-bar'));
     const hper = bar.querySelector('.histogram-percentage');
     const widgetObj = widgets[widget.id];
