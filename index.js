@@ -143,7 +143,11 @@ const mouseMove = ({ widget, bar }) => {
   return ev => {
     let rect = widget.getBoundingClientRect();
     let scrollY = window.scrollY || document.documentElement.scrollTop;
-    let percent = (rect.top + scrollY - ev.pageY + rect.height) / rect.height * 100;
+    let pageY = ev.pageY;
+    if (ev.touches && ev.touches[0]) {
+      pageY = ev.touches[0].pageY;
+    }
+    let percent = (rect.top + scrollY - pageY + rect.height) / rect.height * 100;
     percent = Math.max(0, Math.min(100, percent));
 
     // Set bar height and label.
@@ -161,7 +165,9 @@ const mouseUp = ({ mousemove, bar, widget }) => {
   }
   return ev => {
     document.removeEventListener('mousemove', mousemove);
+    document.removeEventListener('touchmove', mousemove);
     document.removeEventListener('mouseup', mouseup);
+    document.removeEventListener('touchend', mouseup);
 
     // Indicate this bar has been moved.
     bar.style.backgroundColor = '#790200';
@@ -181,15 +187,20 @@ var mouseDownUnmount = () => {};
 const mouseDown = ev => {
   mouseDownUnmount();
   if (ev.target.className === 'histogram-grabber') {
+    ev.preventDefault();
     let bar = ev.target.parentElement;
     let widget = bar.parentElement;
     let mousemove = mouseMove({ widget, bar });
     mouseup = mouseUp({ mousemove, bar, widget });
     document.addEventListener('mousemove', mousemove);
+    document.addEventListener('touchmove', mousemove);
     document.addEventListener('mouseup', mouseup);
+    document.addEventListener('touchend', mouseup);
     mouseDownUnmount = () => {
       document.removeEventListener('mousemove', mousemove);
+      document.removeEventListener('touchmove', mousemove);
       document.removeEventListener('mouseup', mouseup);
+      document.removeEventListener('touchend', mouseup);
     };
   }
 };
@@ -226,9 +237,11 @@ if (histogram.unmount) {
 document.addEventListener('keyup', inputChange);
 document.addEventListener('change', inputChange);
 document.addEventListener('mousedown', mouseDown);
+document.addEventListener('touchstart', mouseDown, { passive: false });
 histogram = {
   unmount: () => {
     document.removeEventListener('mousedown', mouseDown);
+    document.removeEventListener('touchstart', mouseDown);
     document.removeEventListener('keyup', inputChange);
     document.removeEventListener('change', inputChange);
   },
