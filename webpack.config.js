@@ -22,7 +22,10 @@ module.exports = (env = {}) => ({
           options: {
             cacheDirectory: true,
             presets: ['env'],
-            plugins: ['babel-plugin-transform-object-rest-spread', 'babel-plugin-transform-runtime'],
+            plugins: [
+              'babel-plugin-transform-object-rest-spread',
+              'babel-plugin-transform-runtime',
+            ],
           },
         },
       },
