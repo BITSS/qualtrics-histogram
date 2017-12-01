@@ -173,7 +173,7 @@ const mouseUp = ({ mousemove, bar, widget }) => {
     bar.style.backgroundColor = '#790200';
 
     // Update values for each choice.
-    widgetObj.bars.forEach((bar, index) => {
+    Array.from(widgetObj.bars).forEach((bar, index) => {
       widgetObj.question.setChoiceValue(
         widgetObj.question.getChoices()[index],
         parseInt(bar.style.height, 10)
@@ -221,7 +221,7 @@ const inputChange = ev => {
     updateTotalPercentage(widgetObj);
 
     // Update values for each choice.
-    widgetObj.bars.forEach((bar, index) => {
+    Array.from(widgetObj.bars).forEach((bar, index) => {
       widgetObj.question.setChoiceValue(
         widgetObj.question.getChoices()[index],
         parseInt(bar.style.height, 10)
