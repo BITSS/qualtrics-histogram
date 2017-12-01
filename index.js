@@ -64,7 +64,7 @@ questions.forEach(question_id => {
   q.hideChoices();
   let histogramId = `histogram_${Math.random()}`;
   let choiceContainer = q.getChoiceContainer();
-  if (!document.contains(choiceContainer)) {
+  if (!document.body.contains(choiceContainer)) {
     choiceContainer = document.getElementById(question_id).querySelector('.ChoiceStructure');
     choiceContainer.style.display = 'none';
   }
