@@ -1,5 +1,20 @@
 const handleIcon = require('./handle-icon.png');
-const questions = ['QID44', 'QID46', 'QID74', 'QID75'];
+const questions = [
+  'QID44',
+  'QID46',
+  'QID74',
+  'QID75',
+  'QID112',
+  'QID147',
+  'QID148',
+  'QID149',
+  'QID150',
+  'QID115',
+  'QID151',
+  'QID152',
+  'QID153',
+  'QID154',
+];
 //const questions = ['QID1', 'QID2'];
 const questionInfo = Qualtrics.SurveyEngine.QuestionInfo;
 let histogram = window.histogram || {};
