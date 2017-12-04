@@ -14,6 +14,15 @@ const questions = [
   'QID152',
   'QID153',
   'QID154',
+  'QID150',
+  'QID182',
+  'QID183',
+  'QID184',
+  'QID185',
+  'QID186',
+  'QID187',
+  'QID188',
+  'QID189',
 ];
 //const questions = ['QID1', 'QID2'];
 const questionInfo = Qualtrics.SurveyEngine.QuestionInfo;
