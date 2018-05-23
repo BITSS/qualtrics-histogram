@@ -1,21 +1,8 @@
 const handleIcon = require('./handle-icon.png');
-const questions = [
-  'QID44',
-  'QID46',
-  'QID74',
-  'QID75',
-  'QID147',
-  'QID150',
-  'QID182',
-  'QID183',
-  'QID184',
-  'QID185',
-  'QID186',
-  'QID187',
-  'QID188',
-  'QID189',
-];
-//const questions = ['QID1', 'QID2'];
+const questions =
+  typeof window.hquestions === 'string'
+    ? window.hquestions.split(/\s*,\s*/).filter(q => q.match(/^QID\d+$/))
+    : [];
 const questionInfo = Qualtrics.SurveyEngine.QuestionInfo;
 let histogram = window.histogram || {};
 var widgets = {};
