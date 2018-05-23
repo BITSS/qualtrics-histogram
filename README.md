@@ -30,11 +30,11 @@ following in the Chrome browser:
 
 1. Click on the question in survey builder.
 2. Click "Preview Question" in right sidebar.
-3. Open "Console" panel in Google DevTools. (On Mac: Command+Option+J; on
-   Windows and Linux Control+Shift+J).
+3. Open "Console" panel in Google DevTools. (On Mac: `Command+Option+J`; on
+   Windows and Linux `Control+Shift+J`).
 4. Click dropdown labeled "top" in the upper left area of the Console. Select
    the option that starts with "preview-view".
-5. Copy and paste "Qualtrics.SurveyEngine.QuestionInfo" into the console and
+5. Copy and paste `Qualtrics.SurveyEngine.QuestionInfo` into the console and
    press enter. The result should be the internal question ID of that question.
 It starts with "QID" followed by a number.
 6. Make a note of the question ID.
