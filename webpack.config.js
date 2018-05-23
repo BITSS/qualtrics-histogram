@@ -4,7 +4,7 @@ module.exports = (env = {}) => ({
   entry: './index.js',
   output: env.production
     ? {
-        filename: 'bundle-[chunkhash].js',
+        filename: 'b-[chunkhash].js',
         path: path.resolve(__dirname, 'dist'),
       }
     : {
