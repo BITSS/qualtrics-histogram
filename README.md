@@ -4,7 +4,7 @@ This project adds a custom histogram response widget to selected question IDs
 in your Qualtrics survey. Users can drag the bars up or down to indicate their
 response or they may type in the values in the input fields. The total
 percentage must be equal to 100% before the user may proceed to the next
-question.
+question. Code originally written by [Agathon Group](https://www.agathongroup.com/).
 
 ![demo of histogram response widget](docs/assets/histogram-demo.gif)
 
