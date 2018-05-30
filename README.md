@@ -52,7 +52,7 @@ will look like this:
 
 ```js
 <script>window.hquestions = "QID1,QID2";</script>
-<script src="https://agathongroup.github.io/qualtrics-histogram/d/b-77ebb1bdecb9296ca8de.js"></script>
+<script src="https://bitss.github.io/qualtrics-histogram/d/b-77ebb1bdecb9296ca8de.js"></script>
 ```
 
 You can see where QID1 and QID2 are placed in the comma separated list above.
